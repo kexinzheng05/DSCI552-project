@@ -60,7 +60,7 @@ def main():
             targetImage = color.rgb2lab(targetImage).ravel()
 
             # find all articles in the same cluster
-            similarArticles = pd.read_csv(f'D:/Download/csvfile/{articleType}.csv', dtype=dtype_dic, usecols=[1, 2])
+            similarArticles = pd.read_csv(f'csvfile/{articleType}.csv', dtype=dtype_dic, usecols=[1, 2]) # assume these files are in the folder called "csvfile"
             cluster = similarArticles[similarArticles['article_id'] == articleId].values[0][1]
             print("cluster:", cluster)
             sameGroup = similarArticles[similarArticles['cluster'] == cluster]
