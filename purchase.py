@@ -7,8 +7,7 @@ def main():
     np.set_printoptions(threshold=sys.maxsize)
     purchase = {}
     dtype_dic = {'article_id': str}
-    purchases = pd.read_csv('D:/Download/h-and-m-personalized-fashion-recommendations/transactions_train.csv',
-                            dtype=dtype_dic, header=0, usecols=[1, 2])
+    purchases = pd.read_csv('transactions_train.csv', dtype=dtype_dic, header=0, usecols=[1, 2]) # assume transactions_train.csv is in the main direcorty
     purchases = purchases.values.tolist()[:1000]
     for customer, article in purchases:
         purchase.setdefault(customer, []).append(article)
