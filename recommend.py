@@ -29,8 +29,7 @@ def main():
     popularIds = MostPopular(purchase)
 
     dtype_dic = {'article_id': str}
-    articles = pd.read_csv('D:/Download/h-and-m-personalized-fashion-recommendations/articles.csv', dtype=dtype_dic,
-                           usecols=[0, 4])
+    articles = pd.read_csv('articles.csv', dtype=dtype_dic,usecols=[0, 4]) # assume articles.csv is in the main direcorty
     articles = articles.set_index("article_id")["product_type_name"].to_dict()
     for oneCustomer in range(len(purchase)):
         # get one customer id and purchased articles
@@ -52,7 +51,7 @@ def main():
             articleType = articles[articleId].replace("/", " ")
             print(articleType)
             try:
-                targetImage = Image.open("D:/Download/h-and-m-personalized-fashion-recommendations/images/%s/%s.jpg" % (articleId[:3], articleId))
+                targetImage = Image.open("images/%s/%s.jpg" % (articleId[:3], articleId)) # assume folder "images" is in the main direcorty
             except IOError:
                 print('%s does not have an image'% articleId)
                 continue
@@ -61,7 +60,7 @@ def main():
             targetImage = color.rgb2lab(targetImage).ravel()
 
             # find all articles in the same cluster
-            similarArticles = pd.read_csv(f'D:/Download/csvfile/{articleType}.csv', dtype=dtype_dic, usecols=[1, 3])
+            similarArticles = pd.read_csv(f'D:/Download/csvfile/{articleType}.csv', dtype=dtype_dic, usecols=[1, 2])
             cluster = similarArticles[similarArticles['article_id'] == articleId].values[0][1]
             print("cluster:", cluster)
             sameGroup = similarArticles[similarArticles['cluster'] == cluster]
@@ -69,8 +68,7 @@ def main():
 
             # read articles in the same cluster, calculate EMD
             for Id in sameGroup['article_id']:
-                path = "D:/Download/h-and-m-personalized-fashion-recommendations/images/%s/%s.jpg" % (
-                Id[:3], Id)
+                path = "images/%s/%s.jpg" % (Id[:3], Id)
                 #print(Id)
                 image = Image.open(path).convert('RGB')
                 image = image.resize((32, 32))
