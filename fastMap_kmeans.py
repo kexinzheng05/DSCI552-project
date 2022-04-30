@@ -84,7 +84,7 @@ def main():
     np.set_printoptions(threshold=sys.maxsize)
 
     dtype_dic = {'article_id': str}
-    articles = pd.read_csv('D:/Download/h-and-m-personalized-fashion-recommendations/articles.csv', dtype=dtype_dic, usecols=[0, 4])
+    articles = pd.read_csv('articles.csv', dtype=dtype_dic, usecols=[0, 4]) # assume articles.csv is in the main directory
     articles = articles.set_index("article_id")["product_type_name"].to_dict()
     #print(articles)
     article_type = {}
@@ -104,8 +104,7 @@ def main():
         images = []
 
         for articleId in articleIds:
-            path = "D:/Download/h-and-m-personalized-fashion-recommendations/images/%s/%s.jpg" % (
-            articleId[:3], articleId)
+            path = "images/%s/%s.jpg" % (articleId[:3], articleId) # assume images are stored in a folder called "images"
             image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
             if image is not None:
                 image = image.astype(np.float32)
@@ -138,7 +137,7 @@ def main():
         labels = kmean.labels_
         df = pd.DataFrame({"article_id": articleIds, "cluster": labels})
         oneType = oneType.replace("/", " ")
-        df.to_csv(f"{oneType}.csv")
+        df.to_csv(f"csvfile/{oneType}.csv")
 
 if __name__ == "__main__":
     main()
